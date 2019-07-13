@@ -1,20 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from '../demo/Home.vue'
+import DesignForm from '../page/_2_DesignForm'
+import DesignList from '../page/_1_FormList'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      component: Home
+    {//表单设计器页面
+      path: '/design_form',
+      component: DesignForm
     },
-    {
-      path: '/price',
-      name: 'price',
-      component: () => import('../demo/Price.vue')
+    { //表单列表页面
+      path:"/design_list",
+      component:DesignList
     }
   ]
 })

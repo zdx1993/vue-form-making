@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import 'form-making/dist/FormMaking.css'
 // import FormMaking from 'form-making'
 import FormMaking from './index'
+//对axios进行配置
+import axiosConfig from './config/AxiosConifg'
+//console.log(FormMaking)
 Vue.use(FormMaking)
 
 Vue.config.productionTip = false
