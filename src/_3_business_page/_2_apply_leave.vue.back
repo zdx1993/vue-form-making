@@ -1,0 +1,64 @@
+<template>
+    <div>
+        <generate-form v-if="previewVisible" insite="true" :data="widgetForm" :value="widgetModels"
+            :remote="remoteFuncs" ref="generateForm">
+
+            <template v-slot:blank="scope">
+                宽度：<el-input v-model="scope.model.blank.width" style="width: 100px"></el-input>
+                高度：<el-input v-model="scope.model.blank.height" style="width: 100px"></el-input>
+            </template>
+        </generate-form>
+    </div>
+</template>
+
+<script>
+    import generateForm from '../components/GenerateForm'
+    export default {
+        name: "leave",
+        components: {
+            generateForm: generateForm
+        },
+        data() {
+            return {
+                formDefinitionData: {},
+                widgetForm: {},
+                widgetModels: {},
+                remoteFuncs: {},
+                previewVisible: false
+            }
+        },
+        created() {
+            this.getFormRanderData();
+        },
+        methods: {
+            //根据流程定义的key来渲染表单
+            getFormRanderData() {
+                let startProcessKey = this.$route.query.processKey;
+                //获取启动表单的id后,获取表单渲染数据
+                this.getStartFormKey(startProcessKey);
+            },
+            getStartFormKey(startFormKey) { //获取启动表单的id
+                this.$ajax.get("/formId_by_processkey?processKey=" + startFormKey)
+                    .then(res => {
+                        //获取表单详情
+                        this.getFormDefinitionData(res.data);
+                    })
+            },
+            getModels() { //d
+
+            },
+            getFormDefinitionData(startFormId) { //过去表单定义的数据
+                this.$ajax.get("/admin_form/details?id=" + startFormId)
+                    .then(res => {
+                        this.formDefinitionData = res.data.content;
+                        this.widgetForm = JSON.parse(res.data.content.content);
+                        this.previewVisible = true;
+                    })
+            }
+        }
+    }
+</script>
+
+<style lang="scss" scoped>
+
+</style>

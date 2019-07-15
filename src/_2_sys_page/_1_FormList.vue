@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2>表单列表页</h2>
+        <el-button type="primary" plain @click="skipAddFormPage">新增表单</el-button>
         <ul>
             <li v-for="(item,index) in formList" :key="index" @click="skipFormDetails(item.id)">
                 {{item.name}}
@@ -13,32 +14,37 @@
 
 <script>
     export default {
-        data(){
+        data() {
             return {
-                formList:[]
+                formList: []
             }
         },
-        created(){
+        created() {
             this.init();
         },
-        methods:{
-            init(){
+        methods: {
+            init() {
                 this.getFormList();
             },
-            getFormList(){
+            getFormList() {
                 this.$ajax.get("/admin_form/form_list")
-                .then(res => {
-                    if(res.data.code == 200){
-                        this.formList = res.data.content;
+                    .then(res => {
+                        if (res.data.code == 200) {
+                            this.formList = res.data.content;
+                        }
+                    })
+            },
+            skipFormDetails(formId) {
+                this.$router.push({
+                    path: "/design_form",
+                    query: {
+                        formId: formId
                     }
                 })
             },
-            skipFormDetails(formId){
+            skipAddFormPage() { //跳转到新增表单页面
                 this.$router.push({
-                    path:"/design_form",
-                    query:{
-                        formId:formId
-                    }
+                    path: "/design_form"
                 })
             }
         }
